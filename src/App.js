@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import Form from './components/Form'
+import './App.css'
+import ToDoList from './components/ToDoList'
+import ToDo from './components/ToDo'
 
-function App() {
+const App = () => {
+  const [inputText, setinputText] = useState('')
+  const [ToDos, setToDos] = useState([])
+  const [status, setStatus] = useState('all')
+  const [filteredToDos, setfilteredToDos] = useState([])
+
+  useEffect(() => {
+    filterHandler()
+  }, [ToDos, status])
+
+  const filterHandler = () => {
+    switch (status) {
+      case 'completed':
+        setfilteredToDos(ToDos.filter((todo) => todo.completed === true))
+        break
+      case 'uncompleted':
+        setfilteredToDos(ToDos.filter((todo) => todo.completed === false))
+        break
+      default:
+        setfilteredToDos(ToDos)
+        break
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+      <header>
+        <h1>Cosmos's To Do List</h1>
       </header>
+      <Form inputText={inputText} setinputText={setinputText} ToDos={ToDos} setToDos={setToDos} setStatus={setStatus} />
+      <ToDoList ToDos={ToDos} setToDos={setToDos} filteredToDos={filteredToDos} />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
