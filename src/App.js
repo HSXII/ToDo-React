@@ -11,7 +11,12 @@ const App = () => {
   const [filteredToDos, setfilteredToDos] = useState([])
 
   useEffect(() => {
+    getLocalToDos()
+  }, [])
+
+  useEffect(() => {
     filterHandler()
+    saveLocalToDos()
   }, [ToDos, status])
 
   // Filter ToDo List
@@ -26,6 +31,19 @@ const App = () => {
       default:
         setfilteredToDos(ToDos)
         break
+    }
+  }
+
+  const saveLocalToDos = () => {
+    localStorage.setItem('ToDos', JSON.stringify(ToDos))
+  }
+
+  const getLocalToDos = () => {
+    if (localStorage.getItem('ToDos') === null) {
+      localStorage.setItem('ToDos', JSON.stringify([]))
+    } else {
+      let todolocal = JSON.parse(localStorage.getItem('ToDos'))
+      setToDos(todolocal)
     }
   }
 
