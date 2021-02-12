@@ -14,6 +14,7 @@ const App = () => {
     filterHandler()
   }, [ToDos, status])
 
+  // Filter ToDo List
   const filterHandler = () => {
     switch (status) {
       case 'completed':
